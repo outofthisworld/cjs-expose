@@ -1,4 +1,4 @@
-# Expose
+# Expose [![Build Status](https://travis-ci.org/outofthisworld/exposed.svg?branch=master)](https://travis-ci.org/outofthisworld/exposed)
 
 Expose is a simple utility tool for exposing private variables and
 functions from within a commonJs module.

@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path')
 
 
-module.exports = function(modulePath, keys, encoding = 'utf8') {
+module.exports = function(modulePath, keys, encoding) {
+    encoding = encoding || 'utf8';
+
     if (!modulePath) {
         throw new Error('Path must be supplied to expose');
     }

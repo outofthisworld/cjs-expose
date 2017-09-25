@@ -6,7 +6,8 @@ functions from within a commonJs module.
 # Usage
 
 ```javascript
-    //mymodule.js
+    //====== MODULE mymodule.js ======
+
     const myPrivateVar = 1;
 
 
@@ -17,18 +18,27 @@ functions from within a commonJs module.
     let myOtherPrivateFunction = function() {
 
     }
+    
+    //==========END MODULE================
 
-    //myothermodule.js
+    //====== MODULE myothermodule.js ======
+
     const expose = require('cjs-expose');
+    const myAccessor = expose('./mymodule.js');
 
-    const f = expose('./mymodule.js','myPrivateFunction');
+    console.log(myAccessor('myPrivateFunction'));
     //output: [function myPrivateFunction]
 
-    // Expose also accepts an array of arguments, given that array length > 1
-    // the return value will always be an object with keys and values.
-    // Else, if one array value or a string is given the return value
-    // be the actual requested value.
-    const f = expose('./mymodule.js',['myPrivateFunction','myOtherPrivateFunction');
+    console.log(myAccessor('myOtherPrivateFunction'));
+    //output: [function myOtherPrivateFunction]
+
+    console.log(myAccessor('myPrivateVar'));
+    //output: 1
+
+    console.log(myAccessor(['myOtherPrivateFunction']));
+    //output: [function myOtherPrivateFunction]
+
+    console.log(['myPrivateFunction','myOtherPrivateFunction'])
     /*
         output: {
             myPrivateFunction:[function myPrivateFunction],
@@ -36,5 +46,5 @@ functions from within a commonJs module.
         }
     */
 
-
+   //==========END MODULE================
 ```

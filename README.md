@@ -1,6 +1,6 @@
-# Expose [![Build Status](https://travis-ci.org/outofthisworld/exposed.svg?branch=master)](https://travis-ci.org/outofthisworld/exposed)
+# cjs-expose [![Build Status](https://travis-ci.org/outofthisworld/exposed.svg?branch=master)](https://travis-ci.org/outofthisworld/cjs-expose)
 
-Expose is a simple utility tool for exposing private variables and
+cjs-expose is a simple utility tool for exposing private variables and
 functions from within a commonJs module.
 
 # Usage
@@ -19,7 +19,7 @@ functions from within a commonJs module.
     }
 
     //myothermodule.js
-    const expose = require('expose');
+    const expose = require('cjs-expose');
 
     const f = expose('./mymodule.js','myPrivateFunction');
     //output: [function myPrivateFunction]

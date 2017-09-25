@@ -20,15 +20,15 @@ module.exports = function(modulePath, keys, encoding) {
         script = script.replace(/module.exports(\s)*=(\s)*[^}|'|"|;]*[}|'|"|;|1-9]/g, '//')
         script = script.replace(/exports./g, 'let ');
 
-        script += '\nmodule.exports = { '
+        script += '\nmodule.exports = { ';
 
         for (let i = 0; i < keys.length; i++) {
-            script += keys[i] + ':' + keys[i]
+            script += keys[i] + ':' + keys[i];
             if (i != keys.length - 1) {
                 script += ',';
             }
         }
-        script += ' }'
+        script += ' }';
 
         return script;
     }

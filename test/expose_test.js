@@ -19,7 +19,7 @@ describe('expose tests', function() {
         assert.throws(function() { expose('', {}) }, Error);
     })
 
-    /*it('does not error given right parameters', function() {
+    it('does not error given right parameters', function() {
         assert.doesNotThrow(expose('./test/test_mock.js', ['myPrivateFunction']));
     })
 
@@ -52,5 +52,5 @@ describe('expose tests', function() {
     it('returns the result of calling non-exported function', function() {
         const myPrivateFunction = expose('./test/test_mock.js', 'myPrivateFunction', 'utf8')
         assert.equal(myPrivateFunction(), 1);
-    })*/
+    })
 })

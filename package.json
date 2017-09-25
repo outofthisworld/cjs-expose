@@ -1,0 +1,32 @@
+{
+    "name": "expose",
+    "version": "1.0.0",
+    "description": "expose private module functions easily",
+    "main": "bin/index.js",
+    "scripts": {
+        "build": "npm run test",
+        "test": "mocha"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "mocha": "^3.5.3"
+    },
+    "dependencies": {
+        "uuid": "^3.1.0"
+    },
+    "keywords": [
+        "expose",
+        "test",
+        "mocha",
+        "jasmine",
+        "karma",
+        "private",
+        "function",
+        "testing",
+        "debugging",
+        "accessing",
+        "retrieving",
+        "rewired"
+    ]
+}

@@ -1,6 +1,7 @@
 const expose = require('../index');
 const assert = require('assert');
 
+//Tests
 describe('expose tests', function() {
     it('throws an error when no path given', function() {
         assert.throws(function() { expose(undefined, []) }, Error);

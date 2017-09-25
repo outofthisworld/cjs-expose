@@ -40,7 +40,7 @@ module.exports = function(modulePath, keys, encoding) {
 
 
     const tempFilePath = path.join(__dirname, 'temp', 'temp' + require('uuid').v4() + '.js');
-
+    fs.closeSync(fs.openSync(tempFilePath, 'w'));
     fs.writeFileSync(tempFilePath, script, encoding);
 
     function deleteTempFile() {

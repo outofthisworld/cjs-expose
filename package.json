@@ -1,13 +1,17 @@
 {
-    "name": "expose",
+    "name": "cjs-expose",
     "version": "1.0.0",
-    "description": "expose private module functions easily",
-    "main": "bin/index.js",
+    "description": "cjs-expose private commonJS module functions easily",
+    "main": "index.js",
     "scripts": {
         "build": "npm run test",
         "test": "mocha"
     },
-    "author": "",
+    "author": "outofthisworld",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/outofthisworld/cjs-expose"
+    },
     "license": "ISC",
     "devDependencies": {
         "mocha": "^3.5.3"
@@ -16,7 +20,7 @@
         "uuid": "^3.1.0"
     },
     "keywords": [
-        "expose",
+        "cjs-expose",
         "test",
         "mocha",
         "jasmine",

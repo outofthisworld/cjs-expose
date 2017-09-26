@@ -1,9 +1,20 @@
 # cjs-expose [![Build Status](https://travis-ci.org/outofthisworld/exposed.svg?branch=master)](https://travis-ci.org/outofthisworld/cjs-expose)
 
 cjs-expose is a simple utility tool for exposing private variables and
-functions from within a commonJs module.
+functions from within a commonJS module.
 
-# Usage
+
+# installation
+
+`npm install --save cjs-expose`
+
+or 
+
+`npm install --save-dev cjs-expose`
+
+depending on use case.
+
+# usage
 
 ```javascript
     //====== MODULE mymodule.js ======

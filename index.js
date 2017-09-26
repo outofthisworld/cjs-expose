@@ -5,23 +5,13 @@ const path = require('path')
 
 
 const wrapScript = function(script, vars) {
-    const repl = /module.exports(\s)*=(\s)*[^}|'|"|;]*[}|'|"|;|1-9]/g;
-    const expo = /exports./g;
-
-    script = script.replace(repl, '//')
-    script = script.replace(expo, 'let ');
 
     script += '\n';
-    script += 'module.exports = { ';
-
-
-    for (let i = 0; i < vars.length; i++) {
-        script += vars[i] + ':' + vars[i];
-        if (i != vars.length - 1) {
-            script += ',';
+    script += `module.exports = { 
+        __get__(name){
+            return eval(name);
         }
-    }
-    script += ' }';
+    };`;
 
     return script;
 }
@@ -64,9 +54,13 @@ module.exports = function(modulePath, encoding) {
         }
 
 
-        out = varIsString ? out[vars] : vars.length == 1 ? out[vars[0]] : out;
+        const exposed = {};
+        let lastKey;
+        for (let i = 0; i < vars.length; i++) {
+            exposed[lastKey = vars[i]] = out.__get__(vars[i]);
+        }
         deleteTempFile();
 
-        return out;
+        return vars.length > 1 ? exposed : exposed[lastKey];
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "cjs-expose",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "description": "cjs-expose private commonJS module functions easily",
     "main": "index.js",
     "scripts": {

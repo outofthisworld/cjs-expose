@@ -1,25 +1,41 @@
 "use strict"
 
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const { Module } = require('module');
 
 
-const wrapScript = function(script, vars) {
+function compile(code, filename, opts) {
+    if (typeof filename === 'object') {
+        opts = filename;
+        filename = undefined;
+    }
 
-    script += '\n';
-    script += `module.exports = { 
-        __get__(name){
-            return eval(name);
-        }
-    };`;
+    opts = opts || {};
+    filename = filename || '';
 
-    return script;
-}
+    opts.appendPaths = opts.appendPaths || [];
+    opts.prependPaths = opts.prependPaths || [];
 
+    if (typeof code !== 'string') {
+        throw new Error('code must be a string, not ' + typeof code);
+    }
 
-module.exports = function(modulePath, encoding) {
-    encoding = encoding || 'utf8';
+    var paths = Module._nodeModulePaths(path.dirname(filename));
 
+    var parent = module.parent;
+    var m = new Module(filename, parent);
+    m.filename = filename;
+    m.paths = [].concat(opts.prependPaths).concat(paths).concat(opts.appendPaths);
+    m._compile(code, filename);
+
+    var exports = m.exports;
+    parent.children && parent.children.splice(parent.children.indexOf(m), 1);
+
+    return exports;
+};
+
+module.exports = function expose(modulePath, encoding = 'utf8') {
     if (!modulePath) {
         throw new Error('Path must be supplied to expose');
     }
@@ -29,37 +45,28 @@ module.exports = function(modulePath, encoding) {
             throw new Error('Invalid data type passed to expose');
         }
 
-        const varIsString = typeof vars === 'string';
-        vars = varIsString ? [vars] : vars;
+        vars = typeof vars === 'string' ? [vars] : vars;
+        const wrapScript = function(script) {
+            return script += `\r\nmodule.exports = { 
+                    __get__(name){
 
-        let script = wrapScript(fs.readFileSync(modulePath, encoding), vars);
-
-
-        const tempFilePath = path.join(__dirname, 'temp', 'temp' + require('uuid').v4() + '.js');
-
-        fs.writeFileSync(tempFilePath, script, encoding);
-
-        function deleteTempFile() {
-            try {
-                fs.unlinkSync(tempFilePath);
-            } catch (err) {}
+                        return eval(name);
+                    }
+                 };`;
         }
 
-        let out;
-        try {
-            out = require(tempFilePath);
-        } catch (err) {
-            deleteTempFile();
-            throw err;
-        }
+        let out = compile(wrapScript(fs.readFileSync(modulePath, encoding)), path.basename(modulePath));
 
 
         const exposed = {};
         let lastKey;
-        for (let i = 0; i < vars.length; i++) {
-            exposed[lastKey = vars[i]] = out.__get__(vars[i]);
-        }
-        deleteTempFile();
+        vars.forEach(function(v, i) {
+            try {
+                exposed[lastKey = v] = out.__get__(v);
+            } catch (err) {
+                exposed[lastKey = v] = undefined;
+            }
+        })
 
         return vars.length > 1 ? exposed : exposed[lastKey];
     }
